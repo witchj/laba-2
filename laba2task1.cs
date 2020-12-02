@@ -1,98 +1,90 @@
-﻿using System;
-using System.Data;
-using System.Security.Cryptography.X509Certificates;
+using System;
 
 namespace laba2
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        
+        private static void Main(string[] args)
         {
-            Getting ex = new Getting(5, 5, 5, 3);
-            Console.WriteLine("Ваш перший член прогрессії: " + ex.A1);
-            Console.WriteLine("Ваш знаменник прогрессії: " + ex.Q);
-            Console.WriteLine("Кількість елементів прогресії: " + ex.N);
-            Console.WriteLine("Елемент, який треба знайти: " + ex.K);
-            Console.WriteLine("Сума: " + ex.GetSumm(ex.N));
-            Console.WriteLine("Шуканий елемент: " + ex.GetElem(ex.A1, ex.K));
+            
+            var ex = new Getting(5, 5, 5);
+            try
+            {
+                Console.WriteLine("Enter find element:");
+                var findElement = int.Parse(Console.ReadLine());
+                Console.WriteLine("Ваш перший член прогрессії: " + ex.FirstElement);
+                Console.WriteLine("Ваш знаменник прогрессії: " + ex.Denominator);
+                Console.WriteLine("Кількість елементів прогресії: " + ex.CountOfElements);
+                Console.WriteLine("Елемент, який треба знайти: " + findElement);
+                Console.WriteLine("Сума: " + ex.Sum());
+                Console.WriteLine("Шуканий елемент: " + ex[findElement]);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
+            }
             Console.ReadKey();
-        }
+            }
 
-        class Getting
+        private class Getting
         {
-            protected double a1;
-            protected double q;
-            protected int n;
-            protected int k;
+            protected int countOfElements;
+            protected double denominator;
+            protected double firstElement;
 
-            public Getting() { }
-            public Getting(double a1, double q, int n, int k)
+            public Getting()
             {
-                this.a1 = a1;
-                this.q = q;
-                this.n = n;
-                this.k = k;
-            }
-            public double A1
-            {
-                get
-                {
-                    return a1;
-                }
-                set
-                {
-                    a1 = value;
-                }
-            }
-            public double Q
-            {
-                get
-                {
-                    return q;
-                }
-                set
-                {
-                    q = value;
-                }
-            }
-            public int N
-            {
-                get
-                {
-                    return n;
-                }
-                set
-                {
-                    n = value;
-                }
-            }
-            public int K
-            {
-                get
-                {
-                    return k;
-                }
-                set
-                {
-                    k = value;
-                }
-            }
-            public double GetElem(double a1, int k)
-            {
-                if (k == 1)
-                {
-                    return a1;
-                }
-                else
-                {
-                    return a1 * Math.Pow(q, k - 1);
-                }
-            }
-            public double GetSumm(int n)
-            {
-                return a1 * ((1 - Math.Pow(q, n)) / (1 - q));
+                firstElement = 5;
+                denominator = 5;
+                countOfElements = 3;
             }
 
+            public Getting(double firstElement, double denominator, int countOfElements)
+            {
+                this.firstElement = firstElement;
+                this.denominator = denominator;
+                this.countOfElements = countOfElements;
+            }
+
+            public double FirstElement
+            {
+                get => firstElement;
+                set => firstElement = value;
+            }
+
+            public double Denominator
+            {
+                get => denominator;
+                set => denominator = value;
+            }
+
+            public int CountOfElements
+            {
+                get => countOfElements;
+                set => countOfElements = value;
+            }
+
+            public double this[int element]
+            {
+                get
+                {
+                    if (element > countOfElements)
+                    {
+                        throw new Exception("Element not found"); 
+                    }
+                    if (element == 1)
+                    {
+                        return firstElement;
+                    }
+                    return firstElement * Math.Pow(denominator, element - 1);
+                }
+            }
+
+            public double Sum()
+            {
+                return firstElement * ((1 - Math.Pow(denominator, countOfElements)) / (1 - denominator));
+            }
         }
     }
 }
