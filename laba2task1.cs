@@ -69,7 +69,7 @@ namespace laba2
             {
                 get
                 {
-                    if (element > countOfElements)
+                    if (element > countOfElements && element<0)
                     {
                         throw new Exception("Element not found"); 
                     }
