@@ -2,7 +2,7 @@ using System;
 
 namespace laba2
 {
-    internal class Program
+     class Program
     {
         
         private static void Main(string[] args)
