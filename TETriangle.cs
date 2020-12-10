@@ -1,94 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace labrab
+namespace Laba2Task2
 {
-    class TETriangle
+    public class TETriangle
     {
-        private uint _edgeLength;
-        public uint EdgeLength
-        {
-            get => _edgeLength;
-            set
-            {
-                _edgeLength = value;
-            }
-        }
+        protected int _edgeLength;
 
         public TETriangle()
         {
-
+            _edgeLength = 5;
         }
-        public TETriangle(uint edgeLength)
+
+        public TETriangle(int edgeLength)
         {
             EdgeLength = edgeLength;
         }
+
         public TETriangle(TETriangle triangle)
         {
             EdgeLength = triangle.EdgeLength;
         }
 
-        public override string ToString()
+        public int EdgeLength
         {
-            return "TETriangle, EdgeLenght = " + EdgeLength;
-        }
-
-        public virtual void OutputFields()
-        {
-            Console.WriteLine($"Edge Length = {EdgeLength}");
-        }
-        public virtual void InputFields()
-        {
-            bool isWrong = true;
-            uint tmp;
-
-            // Check for incorrect numbers
-            while(isWrong)
+            get => _edgeLength;
+            set
             {
-                Console.WriteLine("Input Edge Length:");
-                tmp = Convert.ToUInt32(Console.ReadLine());
-
-                if (tmp > 0)
-                {
-                    EdgeLength = tmp;
-                    isWrong = false;
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect number. Try again. ");
-                }
+                if (value <= 0) throw new ArgumentException("Incorrect value");
+                _edgeLength = value;
             }
         }
 
-        
-        public void FindArea()
+        public override string ToString()
         {
-            double result;
-            // S = (√3 / 4) * pow(a,2)
-            result = (Math.Sqrt(3) / 4) * Math.Pow(EdgeLength, 2);
-            Console.WriteLine($"Area of Triangle = {result}");
-        }
-        public void FindPerimeter()
-        {
-            double result;
-            result = Math.Pow(EdgeLength, 3);
-            Console.WriteLine($"Perimeter of Triangle = {result}");
+            return $"Edge lenght:{EdgeLength}\nArea:{Area()}\nPerimetr:{Perimeter()}";
         }
 
-        public void ComparisonWith(TETriangle triangle)
+        public double Area()
         {
-            if(EdgeLength == triangle.EdgeLength)
-                Console.WriteLine("The triangles are equal");
-            else
-                Console.WriteLine("The triangles aren't equal");
+            return Math.Sqrt(3) / 4 * Math.Pow(EdgeLength, 2);
         }
 
-        public static uint operator *(TETriangle triangle, uint number)
+        public double Perimeter()
+        {
+            return Math.Pow(EdgeLength, 3);
+        }
+
+        public static bool operator >(TETriangle triangle, TETriangle triangle2)
+        {
+            return triangle.EdgeLength > triangle2.EdgeLength;
+        }
+
+        public static bool operator <(TETriangle triangle, TETriangle triangle2)
+        {
+            return triangle.EdgeLength < triangle2.EdgeLength;
+        }
+
+        public static int operator *(TETriangle triangle, int number)
         {
             return triangle.EdgeLength * number;
         }
-        public static uint operator *(uint number, TETriangle triangle)
+
+        public static int operator *(int number, TETriangle triangle)
         {
             return number * triangle.EdgeLength;
         }
