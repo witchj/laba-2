@@ -48,12 +48,12 @@ namespace Laba2Task2
 
         public static bool operator >(TETriangle triangle, TETriangle triangle2)
         {
-            return triangle.EdgeLength > triangle2.EdgeLength;
+            return triangle.EdgeLength == triangle2.EdgeLength;
         }
 
         public static bool operator <(TETriangle triangle, TETriangle triangle2)
         {
-            return triangle.EdgeLength < triangle2.EdgeLength;
+            return triangle.EdgeLength != triangle2.EdgeLength;
         }
 
         public static int operator *(TETriangle triangle, int number)
