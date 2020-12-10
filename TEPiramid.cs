@@ -1,90 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace labrab
+namespace Laba2Task2
 {
-    class TEPiramid : TETriangle
+    public class TEPiramid : TETriangle
     {
-        private uint _height;
-
-        public uint Height
-        {
-            get => _height;
-            set
-            {
-                _height = value;
-            }
-        }
+        private int _height;
 
         public TEPiramid()
         {
-
+            _height = 5;
         }
-        public TEPiramid(uint edgeLength, uint height)
+
+        public TEPiramid(int edgeLength, int height) : base(edgeLength)
         {
-            EdgeLength = edgeLength;
             Height = height;
         }
+
         public TEPiramid(TEPiramid piramid)
         {
             EdgeLength = piramid.EdgeLength;
             Height = piramid.Height;
         }
 
-        public override void OutputFields()
+        public int Height
         {
-            Console.WriteLine($"Edge Length = {EdgeLength}\nHeight = {Height}");
-        }
-
-        public override void InputFields()
-        {
-            bool isWrong = true;
-            uint tmp;
-            // Check for incorrect numbers in edge length
-            while (isWrong)
+            get => _height;
+            set
             {
-                Console.WriteLine("Input Edge Length:");
-                tmp = Convert.ToUInt32(Console.ReadLine());
-
-                if (tmp > 0)
-                {
-                    EdgeLength = tmp;
-                    isWrong = false;
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect number. Try again. ");
-                }
-            }
-            
-            isWrong = true;
-            // Check for incorrect numbers in height
-            while (isWrong)
-            {
-                Console.WriteLine("Input Height:");
-                tmp = Convert.ToUInt32(Console.ReadLine());
-
-                if (tmp > 0)
-                {
-                    Height = tmp;
-                    isWrong = false;
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect number. Try again. ");
-                }
+                if (value <= 0) throw new ArgumentException("Incorrect value");
+                _height = value;
             }
         }
 
-        public void FindVolume()
+        public static bool operator >(TEPiramid piramid, TEPiramid piramid2)
         {
-            double result;
-            // V = (h * pow(a,2)) / (4 * √3)
-            // h - height, a - EdgeLength
-            result = (Height * Math.Pow(EdgeLength, 2)) / (4 * Math.Sqrt(3));
+            return piramid.Volume() == piramid2.Volume();
+        }
 
-            Console.WriteLine($"Volume of Pyramid = {result}");
+        public static bool operator <(TEPiramid piramid, TEPiramid piramid2)
+        {
+            return piramid.Volume() != piramid2.Volume();
+        }
+
+
+        public double Volume()
+        {
+            return Height * Math.Pow(EdgeLength, 2) / (4 * Math.Sqrt(3));
+        }
+
+        public override string ToString()
+        {
+            return $"Edge length{EdgeLength}\nHeight:{Height}\nVolume:{Volume()}";
         }
     }
 }
